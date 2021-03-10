@@ -43,16 +43,17 @@
         android:src="@drawable/ic_vault" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextVaultNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Vault : 111"
-        android:inputType="text"
+        android:inputType="number"
         android:textColor="@color/BabyPowder" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/actionMonitor"
+        android:onClick="onClick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
