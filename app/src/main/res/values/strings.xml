@@ -3,5 +3,5 @@
     <string name="logInTitle">Welcome Overseer.</string>
     <string name="logInPrompt">Which vault will you take care of today ?</string>
     <string name="actionMonitor">Monitor</string>
-    <string name="alertEmptyField">The vault field must not be empty</string>
+    <string name="alertEmptyField">The vault field must not be empty and be between 1 and 999</string>
 </resources>

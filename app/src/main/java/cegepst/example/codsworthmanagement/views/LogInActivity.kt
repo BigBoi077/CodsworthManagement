@@ -15,13 +15,28 @@ class LogInActivity : AppCompatActivity() {
     }
 
     fun onClick(view: View) {
-        val vaultNumber = findViewById<EditText>(R.id.editTextVaultNumber).text
-        if (vaultNumber.equals("")) {
-            Toast.makeText(this, R.string.alertEmptyField, Toast.LENGTH_SHORT).show()
-            return
+        val vaultNumber = findViewById<EditText>(R.id.editTextVaultNumber)
+        if (vaultNumber != null) {
+            if (isValidVaultNumber(vaultNumber.text.toString())) {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("vaultNumber", vaultNumber.text.toString())
+                startActivity(intent)
+                return
+            }
         }
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("vaultNumber", vaultNumber)
-        startActivity(intent)
+        Toast.makeText(this, R.string.alertEmptyField, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun isValidVaultNumber(vaultNumber: String): Boolean {
+        val vault: Int = try {
+            vaultNumber.toInt()
+        } catch (e: Exception) {
+            0
+        }
+        return isBetween(1, 999, vault)
+    }
+
+    private fun isBetween(min: Int, max: Int, number: Int): Boolean {
+        return number in min..max
     }
 }

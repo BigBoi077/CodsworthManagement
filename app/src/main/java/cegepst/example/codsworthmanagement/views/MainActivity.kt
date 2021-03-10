@@ -9,6 +9,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        promptWelcome()
+    }
+
+    private fun promptWelcome() {
         Toast.makeText(
             this,
             "Welcome to vault ${intent.getStringExtra("vaultNumber")}",
