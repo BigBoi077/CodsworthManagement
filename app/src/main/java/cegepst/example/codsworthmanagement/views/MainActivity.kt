@@ -1,7 +1,7 @@
 package cegepst.example.codsworthmanagement.views
 
 import android.os.Bundle
-import android.widget.Toast
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import cegepst.example.codsworthmanagement.R
 
@@ -13,10 +13,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun promptWelcome() {
-        Toast.makeText(
-            this,
-            "Welcome to vault ${intent.getStringExtra("vaultNumber")}",
-            Toast.LENGTH_SHORT
-        ).show()
+        val welcomeText = findViewById<TextView>(R.id.welcomePrompt)
+        welcomeText.text = "Welcome to vault ${intent.getStringExtra("vaultNumber")}"
     }
 }
