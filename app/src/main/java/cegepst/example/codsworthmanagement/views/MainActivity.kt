@@ -7,17 +7,39 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import cegepst.example.codsworthmanagement.R
+import cegepst.example.codsworthmanagement.controllers.MainController
+import cegepst.example.codsworthmanagement.models.Vault
+import cegepst.example.codsworthmanagement.models.VaultManager
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var manager: VaultManager
+    private lateinit var controller: MainController
+    private lateinit var vault: Vault
+    private var vaultNumber: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         promptWelcome()
+        initContent()
+    }
+
+    private fun initContent() {
+        manager = VaultManager(this, vaultNumber)
+        if (manager.vaultExit()) {
+            manager.loadVaultContent()
+        } else {
+            manager.registerVault()
+        }
+        this.controller = MainController(this)
     }
 
     private fun promptWelcome() {
         val welcomeText = findViewById<TextView>(R.id.welcomePrompt)
-        welcomeText.text = "Welcome to vault ${intent.getStringExtra("vaultNumber")}"
+        val vaultNumber = intent.getStringExtra("vaultNumber")
+        this.vaultNumber = vaultNumber.toString().toLong()
+        welcomeText.text = "Welcome to vault ${vaultNumber}"
     }
 
     fun onClick(view: View) {}
