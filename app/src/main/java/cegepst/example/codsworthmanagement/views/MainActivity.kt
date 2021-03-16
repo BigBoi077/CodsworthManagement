@@ -1,6 +1,7 @@
 package cegepst.example.codsworthmanagement.views
 
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import cegepst.example.codsworthmanagement.R
@@ -16,4 +17,6 @@ class MainActivity : AppCompatActivity() {
         val welcomeText = findViewById<TextView>(R.id.welcomePrompt)
         welcomeText.text = "Welcome to vault ${intent.getStringExtra("vaultNumber")}"
     }
+
+    fun onClick(view: View) {}
 }

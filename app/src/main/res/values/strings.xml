@@ -4,4 +4,7 @@
     <string name="logInPrompt">Which vault will you take care of today ?</string>
     <string name="actionMonitor">Monitor</string>
     <string name="alertEmptyField">The vault field must not be empty and be between 1 and 999</string>
+    <string name="actionBuyUpgrade">Upgrade/Buy</string>
+    <string name="actionMrhandy">Mr.Handy</string>
+    <string name="actionCollect">Collect</string>
 </resources>
