@@ -25,7 +25,6 @@ abstract class AppStore : RoomDatabase() {
                 context,
                 AppStore::class.java,
                 "CodsworthManagement-0"
-        )
-                .build()
+        ).build()
     }
 }

@@ -18,7 +18,7 @@ class VaultManager(mainActivity: MainActivity, vaultNumber: Long) {
         return database.vaultDAO().get(vaultNumber)
     }
 
-    fun vaultExit(): Boolean {
+    fun vaultExist(): Boolean {
         return database.vaultDAO().get(vaultNumber) == null
     }
 }

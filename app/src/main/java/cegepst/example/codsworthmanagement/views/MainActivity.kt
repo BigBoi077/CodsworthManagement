@@ -1,6 +1,7 @@
 package cegepst.example.codsworthmanagement.views
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -27,12 +28,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun initContent() {
         manager = VaultManager(this, vaultNumber)
-        if (manager.vaultExit()) {
-            manager.loadVaultContent()
+        if (manager.vaultExist()) {
+            this.vault = manager.loadVaultContent()
+            Log.d("ALERT", "LOADED VAULT")
         } else {
-            manager.registerVault()
+            this.vault = manager.registerVault()
+            Log.d("ALERT", "REGISTERED VAULT")
         }
-        this.controller = MainController(this)
+        this.controller = MainController(this, vault)
     }
 
     private fun promptWelcome() {
