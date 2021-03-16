@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/actionDestroyVault"
+        android:icon="@drawable/ic_fire"
+        android:title="@string/actionDestroyVault" />
+
+    <item
+        android:id="@+id/actionQuitVault"
+        android:icon="@drawable/ic_on_off"
+        android:title="@string/actionQuit" />
+
+</menu>

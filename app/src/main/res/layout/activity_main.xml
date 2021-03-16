@@ -23,19 +23,19 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="8dp"
             android:textColor="@color/BabyPowder"
-            android:textSize="16dp" />
+            android:textSize="24sp" />
     </TableRow>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:background="@android:color/darker_gray" />
 
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp">
+        android:layout_margin="8dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -44,16 +44,11 @@
 
         <TextView
             android:id="@+id/quantityCaps"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.75" />
     </TableRow>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="16dp"
-        android:background="@android:color/darker_gray" />
 
     <TableRow
         android:layout_width="wrap_content"
@@ -67,14 +62,15 @@
             android:src="@drawable/ic_water_drop" />
 
         <TextView
-            android:id="@id/quantityWater"
+            android:id="@+id/quantityWater"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.75" />
     </TableRow>
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp">
 
@@ -82,30 +78,30 @@
             android:id="@+id/actionBuyWater"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
             android:drawableLeft="@drawable/ic_money"
             android:onClick="onClick"
+            android:layout_weight="1"
             android:text="@string/actionBuyUpgrade" />
 
         <Button
             android:id="@+id/actionMrHandyWater"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
             android:drawableLeft="@drawable/ic_bolt"
             android:onClick="onClick"
+            android:layout_weight="1"
             android:text="@string/actionMrhandy" />
 
-        <Button
-            android:id="@+id/actionCollectWater"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:drawableLeft="@drawable/ic_collect"
-            android:onClick="onClick"
-            android:text="@string/actionCollect" />
-
     </TableRow>
+
+    <Button
+        android:id="@+id/actionCollectWater"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_collect"
+        android:onClick="onClick"
+        android:text="@string/actionCollect" />
 
     <TableRow
         android:layout_width="wrap_content"
@@ -120,13 +116,14 @@
 
         <TextView
             android:id="@+id/quantitySteak"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.75" />
     </TableRow>
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp">
 
@@ -134,30 +131,30 @@
             android:id="@+id/actionBuySteak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
             android:drawableLeft="@drawable/ic_money"
             android:onClick="onClick"
+            android:layout_weight="1"
             android:text="@string/actionBuyUpgrade" />
 
         <Button
             android:id="@+id/actionMrHandySteak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
             android:drawableLeft="@drawable/ic_bolt"
             android:onClick="onClick"
+            android:layout_weight="1"
             android:text="@string/actionMrhandy" />
 
-        <Button
-            android:id="@+id/actionCollectSteak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:drawableLeft="@drawable/ic_collect"
-            android:onClick="onClick"
-            android:text="@string/actionCollect" />
-
     </TableRow>
+
+    <Button
+        android:id="@+id/actionCollectSteak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_collect"
+        android:onClick="onClick"
+        android:text="@string/actionCollect" />
 
     <TableRow
         android:layout_width="wrap_content"
@@ -172,6 +169,7 @@
 
         <TextView
             android:id="@+id/quantityCola"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.75"
@@ -179,7 +177,7 @@
     </TableRow>
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp">
 
@@ -187,29 +185,29 @@
             android:id="@+id/actionBuyCola"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
             android:drawableLeft="@drawable/ic_money"
             android:onClick="onClick"
+            android:layout_weight="1"
             android:text="@string/actionBuyUpgrade" />
 
         <Button
             android:id="@+id/actionMrHandyCola"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
             android:drawableLeft="@drawable/ic_bolt"
             android:onClick="onClick"
+            android:layout_weight="1"
             android:text="@string/actionMrhandy" />
 
-        <Button
-            android:id="@+id/actionCollectCola"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:drawableLeft="@drawable/ic_collect"
-            android:onClick="onClick"
-            android:text="@string/actionCollect" />
-
     </TableRow>
+
+    <Button
+        android:id="@+id/actionCollectCola"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_collect"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:text="@string/actionCollect" />
 
 </TableLayout>

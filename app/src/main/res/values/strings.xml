@@ -7,4 +7,6 @@
     <string name="actionBuyUpgrade">Upgrade/Buy</string>
     <string name="actionMrhandy">Mr.Handy</string>
     <string name="actionCollect">Collect</string>
+    <string name="actionDestroyVault">Destroy Vault</string>
+    <string name="actionQuit">Quit Vault</string>
 </resources>
