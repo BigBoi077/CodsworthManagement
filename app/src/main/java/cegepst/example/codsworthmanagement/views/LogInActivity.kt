@@ -16,7 +16,10 @@ class LogInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_log_in)
         if (intent.getLongExtra("vaultId", 0) != null) {
             val vaultNumber = intent.getLongExtra("vaultId", 0)
-            val manager = VaultManager(MainActivity(), vaultNumber)
+
+            // TODO : fix le mainactivity call du vaultManager
+
+            val manager = VaultManager(null, vaultNumber)
 
             Log.d("DELETE", "DELETE")
 

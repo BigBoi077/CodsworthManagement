@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 class VaultManager(mainActivity: MainActivity, vaultNumber: Long) {
 
     private val mainActivity = mainActivity
-    private val database = mainActivity.let { AppStore(it) }
+    private val database = AppStore(mainActivity)
     private val vaultNumber: Long = vaultNumber
 
     private fun registerVault() {
