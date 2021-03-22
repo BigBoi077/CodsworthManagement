@@ -11,6 +11,7 @@ import cegepst.example.codsworthmanagement.R
 import cegepst.example.codsworthmanagement.controllers.MainController
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.models.VaultManager
+import cegepst.example.codsworthmanagement.stores.AppStore
 
 class MainActivity : AppCompatActivity() {
     private lateinit var manager: VaultManager
@@ -26,8 +27,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initContent() {
-        manager = VaultManager(this, vaultNumber)
-        manager.handleVaultLoad()
+        var lambda = { vault: Vault -> loadVault(vault) }
+        manager = VaultManager(AppStore(this), vaultNumber)
+        manager.handleVaultLoad(lambda)
     }
 
     private fun promptWelcome() {
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun loadVault(vault: Vault) {
+    private fun loadVault(vault: Vault) {
         this.vault = vault
         this.controller = MainController(this, vault)
     }

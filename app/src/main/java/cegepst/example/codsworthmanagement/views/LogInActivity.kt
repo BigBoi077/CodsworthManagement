@@ -2,13 +2,13 @@ package cegepst.example.codsworthmanagement.views
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import cegepst.example.codsworthmanagement.R
 import cegepst.example.codsworthmanagement.models.VaultManager
+import cegepst.example.codsworthmanagement.stores.AppStore
 
 class LogInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,13 +16,7 @@ class LogInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_log_in)
         if (intent.getLongExtra("vaultId", 0) != null) {
             val vaultNumber = intent.getLongExtra("vaultId", 0)
-
-            // TODO : fix le mainactivity call du vaultManager
-
-            val manager = VaultManager(null, vaultNumber)
-
-            Log.d("DELETE", "DELETE")
-
+            val manager = VaultManager(AppStore(this), vaultNumber)
             manager.delete(vaultNumber)
         }
     }

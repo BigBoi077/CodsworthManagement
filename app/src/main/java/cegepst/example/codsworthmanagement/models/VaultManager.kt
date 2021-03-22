@@ -1,38 +1,33 @@
 package cegepst.example.codsworthmanagement.models
 
 import cegepst.example.codsworthmanagement.stores.AppStore
-import cegepst.example.codsworthmanagement.views.MainActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
-class VaultManager(mainActivity: MainActivity, vaultNumber: Long) {
+class VaultManager(appStore: AppStore, vaultNumber: Long) {
 
-    private val mainActivity = mainActivity
-    private val database = AppStore(mainActivity)
+    private val database = appStore
     private val vaultNumber: Long = vaultNumber
 
-    private fun registerVault() {
+    private fun registerVault(lambda: (Vault) -> Unit) {
         GlobalScope.launch {
             val vault = Vault(vaultNumber, 0, 0, 0, 0, 0)
             database.vaultDAO().insert(vault)
             withContext(Dispatchers.Main) {
-                mainActivity.loadVault(vault)
+                lambda(vault)
             }
         }
     }
 
-    fun handleVaultLoad() {
+    fun handleVaultLoad(lambda: (Vault) -> Unit) {
         var vault: Vault
         GlobalScope.launch {
             if (database.vaultDAO().get(vaultNumber) == null) {
-                registerVault()
+                registerVault(lambda)
                 return@launch
             }
             vault = database.vaultDAO().get(vaultNumber)
             withContext(Dispatchers.Main) {
-                mainActivity.loadVault(vault)
+                lambda(vault)
             }
         }
     }
