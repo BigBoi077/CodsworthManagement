@@ -1,6 +1,9 @@
 package cegepst.example.codsworthmanagement.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import cegepst.example.codsworthmanagement.models.Vault
 
 @Dao
@@ -15,6 +18,6 @@ interface VaultDAO {
     @Update
     fun update(vault: Vault)
 
-    @Delete
-    fun delete(vault: Vault)
+    @Query("DELETE FROM vault WHERE id=:id")
+    fun delete(id: Long)
 }

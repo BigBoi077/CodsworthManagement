@@ -1,7 +1,7 @@
 package cegepst.example.codsworthmanagement.views
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,7 +13,6 @@ import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.models.VaultManager
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var manager: VaultManager
     private lateinit var controller: MainController
     private lateinit var vault: Vault
@@ -28,14 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initContent() {
         manager = VaultManager(this, vaultNumber)
-        if (manager.vaultExist()) {
-            this.vault = manager.loadVaultContent()
-            Log.d("ALERT", "LOADED VAULT")
-        } else {
-            this.vault = manager.registerVault()
-            Log.d("ALERT", "REGISTERED VAULT")
-        }
-        this.controller = MainController(this, vault)
+        manager.handleVaultLoad()
     }
 
     private fun promptWelcome() {
@@ -45,7 +37,9 @@ class MainActivity : AppCompatActivity() {
         welcomeText.text = "Welcome to vault ${vaultNumber}"
     }
 
-    fun onClick(view: View) {}
+    fun onClick(view: View) {
+        // TODO : fill actions here
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -54,15 +48,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.actionDestroyVault -> {
-            // TODO : make method here
+            val intent = Intent(this, LogInActivity::class.java)
+            intent.putExtra("vaultId", this.vaultNumber)
+            startActivity(intent)
             true
         }
         R.id.actionQuitVault -> {
-            // TODO : make method here
+            val intent = Intent(this, LogInActivity::class.java)
+            startActivity(intent)
             true
         }
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    fun loadVault(vault: Vault) {
+        this.vault = vault
+        this.controller = MainController(this, vault)
     }
 }

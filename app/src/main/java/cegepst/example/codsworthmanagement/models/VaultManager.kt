@@ -2,23 +2,47 @@ package cegepst.example.codsworthmanagement.models
 
 import cegepst.example.codsworthmanagement.stores.AppStore
 import cegepst.example.codsworthmanagement.views.MainActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class VaultManager(mainActivity: MainActivity, vaultNumber: Long) {
 
-    private val database = AppStore(mainActivity)
+    private val mainActivity = mainActivity
+    private val database = mainActivity.let { AppStore(it) }
     private val vaultNumber: Long = vaultNumber
 
-    fun registerVault(): Vault {
-        val vault = Vault(0, 0, 0, 0, 0)
-        database.vaultDAO().insert(vault)
-        return vault
+    private fun registerVault() {
+        GlobalScope.launch {
+            val vault = Vault(vaultNumber, 0, 0, 0, 0, 0)
+            database.vaultDAO().insert(vault)
+            withContext(Dispatchers.Main) {
+                mainActivity.loadVault(vault)
+            }
+        }
     }
 
-    fun loadVaultContent(): Vault {
-        return database.vaultDAO().get(vaultNumber)
+    fun handleVaultLoad() {
+        var vault: Vault
+        GlobalScope.launch {
+            if (database.vaultDAO().get(vaultNumber) == null) {
+                registerVault()
+                return@launch
+            }
+            vault = database.vaultDAO().get(vaultNumber)
+            withContext(Dispatchers.Main) {
+                mainActivity.loadVault(vault)
+            }
+        }
     }
 
-    fun vaultExist(): Boolean {
-        return database.vaultDAO().get(vaultNumber) == null
+    fun delete(vaultNumber: Long) {
+        GlobalScope.launch {
+            database.vaultDAO().delete(vaultNumber)
+            withContext(Dispatchers.Main) {
+                return@withContext
+            }
+        }
     }
 }
