@@ -12,8 +12,16 @@ import cegepst.example.codsworthmanagement.controllers.MainController
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.models.VaultManager
 import cegepst.example.codsworthmanagement.stores.AppStore
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
+
+private const val SAVE_INTERVAL = 60
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var disposable: Disposable
     private lateinit var manager: VaultManager
     private lateinit var controller: MainController
     private lateinit var vault: Vault
@@ -68,5 +76,16 @@ class MainActivity : AppCompatActivity() {
     private fun loadVault(vault: Vault) {
         this.vault = vault
         this.controller = MainController(this, vault)
+        this.controller.initVariables()
+        this.controller.loadContent()
+        placeUpdateEvent()
+    }
+
+    private fun placeUpdateEvent() {
+        disposable = Observable.interval(SAVE_INTERVAL.toLong(), TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map { controller.updateContent() }
+                .subscribe { controller.loadContent() }
     }
 }
