@@ -47,13 +47,16 @@ class MainActivity : AppCompatActivity() {
         val welcomeText = findViewById<TextView>(R.id.welcomePrompt)
         val vaultNumber = intent.getStringExtra("vaultNumber")
         this.vaultNumber = vaultNumber.toString().toLong()
-        welcomeText.text = "Welcome to vault ${vaultNumber}"
+        welcomeText.text = resources.getText(R.string.formatWelcome, vaultNumber)
     }
 
     fun onClick(view: View) {
+        controller.updateButtons()
         when (view.id) {
             R.id.actionBuyWater -> controller.buyWater()
+            R.id.actionUpgradeWater -> controller.upgradeWater()
         }
+        controller.updateContent()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

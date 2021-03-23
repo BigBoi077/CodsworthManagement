@@ -1,7 +1,9 @@
 package cegepst.example.codsworthmanagement.controllers
 
 import android.widget.TextView
+import android.widget.Toast
 import cegepst.example.codsworthmanagement.R
+import cegepst.example.codsworthmanagement.models.Constants
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.stores.AppStore
 import cegepst.example.codsworthmanagement.views.MainActivity
@@ -51,6 +53,24 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     }
 
     fun buyWater() {
+        if (vault.hasBoughtWater) {
+            alert("You have already bought water, maybe try upgrading")
+        } else {
+            if (hasEnoughtMoney(Constants.waterInitialCost)) {
+                vault.hasBoughtWater = true
+            }
+        }
+    }
 
+    private fun hasEnoughtMoney(wantedCapsQuantity: Int): Boolean {
+        return vault.nbrCaps >= wantedCapsQuantity
+    }
+
+    fun upgradeWater() {
+
+    }
+
+    fun alert(message: String) {
+        Toast.makeText(weakReference.get(), message, Toast.LENGTH_SHORT)
     }
 }
