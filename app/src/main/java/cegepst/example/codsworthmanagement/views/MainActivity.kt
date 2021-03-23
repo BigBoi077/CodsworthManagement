@@ -12,21 +12,11 @@ import cegepst.example.codsworthmanagement.controllers.MainController
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.models.VaultManager
 import cegepst.example.codsworthmanagement.stores.AppStore
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicBoolean
-
-private const val SAVE_INTERVAL = 60
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var disposable: Disposable
     private lateinit var manager: VaultManager
     private lateinit var controller: MainController
-    private lateinit var running: AtomicBoolean
     private lateinit var vault: Vault
     private var vaultNumber: Long = 0
 
@@ -35,6 +25,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         promptWelcome()
         initContent()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        controller.saveVault()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        controller.saveVault()
+        controller.killDisposables()
     }
 
     private fun initContent() {
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             // TODO : fill rest for collection and make upgrade functions for others
 
         }
-        controller.updateContent()
+        controller.saveVault()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -92,18 +93,12 @@ class MainActivity : AppCompatActivity() {
         this.vault = vault
         this.controller = MainController(this, vault)
         this.controller.initVariables()
-        this.controller.loadContent()
-        this.running.set(true)
+        this.controller.refreshContent()
         this.controller.updateButtons()
         placeUpdateEvent()
     }
 
     private fun placeUpdateEvent() {
-        disposable = Observable.interval(SAVE_INTERVAL.toLong(), TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter { running.get() }
-                .map { controller.updateContent() }
-                .subscribe { controller.loadContent() }
+        controller.placeDisposableEvents()
     }
 }

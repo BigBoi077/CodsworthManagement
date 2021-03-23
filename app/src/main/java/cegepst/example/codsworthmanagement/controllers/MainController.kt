@@ -11,7 +11,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
-private const val PRODUCTION_TIME_RATIO = 0.05
+private const val PRODUCTION_TIME_RATIO = 0.0
 
 class MainController(mainActivity: MainActivity, vault: Vault) {
 
@@ -19,6 +19,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     private var weakReference = WeakReference(mainActivity)
     private val database = AppStore(mainActivity)
     private val screenManager = ScreenController(weakReference, vault)
+    private val disposableController = DisposableController(this, vault)
 
     private lateinit var capsView: TextView
     private lateinit var waterView: TextView
@@ -32,7 +33,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         colaView = weakReference.get()!!.findViewById(R.id.quantityCola)
     }
 
-    fun loadContent() {
+    fun refreshContent() {
         GlobalScope.launch {
             vault = database.vaultDAO().get(vault.id)
             capsView.text = "${vault.nbrCaps} caps"
@@ -42,10 +43,10 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         }
     }
 
-    fun updateContent() {
+    fun saveVault() {
         GlobalScope.launch {
             database.vaultDAO().update(vault)
-            loadContent()
+            refreshContent()
         }
     }
 
@@ -110,7 +111,19 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     }
 
     fun upgradeSteak() {
-        TODO("Not yet implemented")
+        if (!vault.hasBoughtSteak) {
+            alert("You have not bought steak yet")
+        } else {
+            val wantedNbrUpgrades = vault.steakUpgrades++
+            if (maxedOutUpgrades(wantedNbrUpgrades)) {
+                alert("This resource is maxed out")
+                return
+            }
+            if (hasEnoughMoney(calculateResourceFee(Constants.steakModificationPrice, vault.steakUpgrades))) {
+                vault.steakUpgrades++
+                vault.steakCollectDelay = calculateDelay(Constants.steakProductionTime, vault.steakUpgrades)
+            }
+        }
     }
 
     fun buyCola() {
@@ -124,6 +137,26 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     }
 
     fun upgradeCola() {
-        TODO("Not yet implemented")
+        if (!vault.hasBoughtCola) {
+            alert("You have not bought this resource yet")
+        } else {
+            val wantedNbrUpgrades = vault.nukaColaUpgrades
+            if (maxedOutUpgrades(wantedNbrUpgrades)) {
+                alert("This resource is maxed out")
+                return
+            }
+            if (hasEnoughMoney(calculateResourceFee(Constants.colaModificationPrice, vault.nukaColaUpgrades))) {
+                vault.nukaColaUpgrades++
+                vault.colaCollectDelay = calculateDelay(Constants.colaProductionTime, vault.nukaColaUpgrades)
+            }
+        }
+    }
+
+    fun placeDisposableEvents() {
+        disposableController.placeSaveEvents()
+    }
+
+    fun killDisposables() {
+        disposableController.dispose()
     }
 }
