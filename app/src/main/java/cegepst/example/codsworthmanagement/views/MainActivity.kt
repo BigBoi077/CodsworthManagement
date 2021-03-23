@@ -55,6 +55,13 @@ class MainActivity : AppCompatActivity() {
         when (view.id) {
             R.id.actionBuyWater -> controller.buyWater()
             R.id.actionUpgradeWater -> controller.upgradeWater()
+            R.id.actionBuySteak -> controller.buySteak()
+            R.id.actionUpgradeSteak -> controller.upgradeSteak()
+            R.id.actionBuyCola -> controller.buyCola()
+            R.id.actionUpgradeCola -> controller.upgradeCola()
+
+            // TODO : fill rest for collection and make upgrade functions for others
+
         }
         controller.updateContent()
     }

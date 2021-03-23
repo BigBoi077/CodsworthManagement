@@ -11,13 +11,14 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
+private const val PRODUCTION_TIME_RATIO = 0.05
+
 class MainController(mainActivity: MainActivity, vault: Vault) {
 
     private var vault = vault
     private var weakReference = WeakReference(mainActivity)
     private val database = AppStore(mainActivity)
     private val screenManager = ScreenController(weakReference, vault)
-
 
     private lateinit var capsView: TextView
     private lateinit var waterView: TextView
@@ -52,25 +53,77 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         screenManager.lockAccordingButtons()
     }
 
+    private fun hasEnoughMoney(wantedCapsQuantity: Int): Boolean {
+        return vault.nbrCaps >= wantedCapsQuantity
+    }
+
+    private fun alert(message: String) {
+        Toast.makeText(weakReference.get(), message, Toast.LENGTH_SHORT)
+    }
+
+    private fun calculateResourceFee(modificationPrice: Int, nbrUpgrades: Int): Int {
+        return modificationPrice * nbrUpgrades
+    }
+
+    private fun maxedOutUpgrades(wantedNbrUpgrades: Int): Boolean {
+        return wantedNbrUpgrades > Constants.maxAmelioration
+    }
+
+    private fun calculateDelay(productionTime: Int, nbrUpgrades: Int): Double {
+        return productionTime - (productionTime * (nbrUpgrades * PRODUCTION_TIME_RATIO))
+    }
+
     fun buyWater() {
         if (vault.hasBoughtWater) {
             alert("You have already bought water, maybe try upgrading")
         } else {
-            if (hasEnoughtMoney(Constants.waterInitialCost)) {
+            if (hasEnoughMoney(Constants.waterInitialCost)) {
                 vault.hasBoughtWater = true
             }
         }
     }
 
-    private fun hasEnoughtMoney(wantedCapsQuantity: Int): Boolean {
-        return vault.nbrCaps >= wantedCapsQuantity
-    }
-
     fun upgradeWater() {
-
+        if (!vault.hasBoughtWater) {
+            alert("You have not bought water yet")
+        } else {
+            val wantedNbrUpgrades = vault.waterUpgrades++
+            if (maxedOutUpgrades(wantedNbrUpgrades)) {
+                alert("This resource is maxed out")
+                return
+            }
+            if (hasEnoughMoney(calculateResourceFee(Constants.waterModificationPrice, vault.waterUpgrades))) {
+                vault.waterUpgrades++
+                vault.waterCollectDelay = calculateDelay(Constants.waterProductionTime, vault.waterUpgrades)
+            }
+        }
     }
 
-    fun alert(message: String) {
-        Toast.makeText(weakReference.get(), message, Toast.LENGTH_SHORT)
+    fun buySteak() {
+        if (vault.hasBoughtSteak) {
+            alert("You have already bought water, maybe try upgrading")
+        } else {
+            if (hasEnoughMoney(Constants.steakInitialCost)) {
+                vault.hasBoughtSteak = true
+            }
+        }
+    }
+
+    fun upgradeSteak() {
+        TODO("Not yet implemented")
+    }
+
+    fun buyCola() {
+        if (vault.hasBoughtCola) {
+            alert("You have already bought water, maybe try upgrading")
+        } else {
+            if (hasEnoughMoney(Constants.colaInitialCost)) {
+                vault.hasBoughtCola = true
+            }
+        }
+    }
+
+    fun upgradeCola() {
+        TODO("Not yet implemented")
     }
 }

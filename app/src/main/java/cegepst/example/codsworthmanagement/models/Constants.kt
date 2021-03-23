@@ -11,7 +11,7 @@ class Constants {
         val waterRevenue: Int = 5
         val waterProductionTime: Int = 2
 
-        val steakInitialPrice: Int = 1000
+        val steakInitialCost: Int = 1000
         val steakModificationPrice: Int = 250
         val steakMrHandyPrice: Int = 5000
         val steakRevenue: Int = 50

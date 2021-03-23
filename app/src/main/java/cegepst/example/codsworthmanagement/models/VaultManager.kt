@@ -12,8 +12,8 @@ class VaultManager(appStore: AppStore, vaultNumber: Long) {
         GlobalScope.launch {
             val vault = Vault(vaultNumber,
                     0, 0, 0, 0, 0,
-                    false, false, false,
-                    0.0, 0.0, 0.0)
+                    hasBoughtWater = false, hasBoughtSteak = false, hasBoughtCola = false,
+                    waterCollectDelay = 0.0, steakCollectDelay = 0.0, colaCollectDelay = 0.0)
             database.vaultDAO().insert(vault)
             withContext(Dispatchers.Main) {
                 lambda(vault)
