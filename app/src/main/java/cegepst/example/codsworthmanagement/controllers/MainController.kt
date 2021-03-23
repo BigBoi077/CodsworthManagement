@@ -59,7 +59,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     }
 
     private fun alert(message: String) {
-        Toast.makeText(weakReference.get(), message, Toast.LENGTH_SHORT)
+        Toast.makeText(weakReference.get(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun calculateResourceFee(modificationPrice: Int, nbrUpgrades: Int): Int {
@@ -88,8 +88,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         if (!vault.hasBoughtWater) {
             alert("You have not bought water yet")
         } else {
-            val wantedNbrUpgrades = vault.waterUpgrades++
-            if (maxedOutUpgrades(wantedNbrUpgrades)) {
+            if (maxedOutUpgrades(vault.waterUpgrades++)) {
                 alert("This resource is maxed out")
                 return
             }
@@ -114,8 +113,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         if (!vault.hasBoughtSteak) {
             alert("You have not bought steak yet")
         } else {
-            val wantedNbrUpgrades = vault.steakUpgrades++
-            if (maxedOutUpgrades(wantedNbrUpgrades)) {
+            if (maxedOutUpgrades(vault.steakUpgrades++)) {
                 alert("This resource is maxed out")
                 return
             }
@@ -140,8 +138,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         if (!vault.hasBoughtCola) {
             alert("You have not bought this resource yet")
         } else {
-            val wantedNbrUpgrades = vault.nukaColaUpgrades
-            if (maxedOutUpgrades(wantedNbrUpgrades)) {
+            if (maxedOutUpgrades(vault.nukaColaUpgrades++)) {
                 alert("This resource is maxed out")
                 return
             }
@@ -158,5 +155,9 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
 
     fun killDisposables() {
         disposableController.dispose()
+    }
+
+    fun collectWater() {
+        TODO("Not yet implemented")
     }
 }
