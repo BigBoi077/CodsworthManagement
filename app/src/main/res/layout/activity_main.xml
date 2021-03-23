@@ -75,13 +75,13 @@
         android:layout_margin="8dp">
 
         <Button
-            android:id="@+id/actionBuyWater"
+            android:id="@+id/actionUpgradeWater"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_money"
             android:onClick="onClick"
             android:layout_weight="1"
-            android:text="@string/actionBuyUpgrade" />
+            android:text="@string/actionUpgrade" />
 
         <Button
             android:id="@+id/actionMrHandyWater"
@@ -94,14 +94,32 @@
 
     </TableRow>
 
-    <Button
-        android:id="@+id/actionCollectWater"
-        android:layout_width="wrap_content"
+    <TableRow
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:drawableLeft="@drawable/ic_collect"
-        android:onClick="onClick"
-        android:text="@string/actionCollect" />
+        android:layout_margin="8dp">
+
+        <Button
+            android:id="@+id/actionBuyWater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_money"
+            android:onClick="onClick"
+            android:text="@string/actionBuy" />
+
+        <Button
+            android:id="@+id/actionCollectWater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_collect"
+            android:onClick="onClick"
+            android:text="@string/actionCollect" />
+
+    </TableRow>
 
     <TableRow
         android:layout_width="wrap_content"
@@ -128,13 +146,13 @@
         android:layout_margin="8dp">
 
         <Button
-            android:id="@+id/actionBuySteak"
+            android:id="@+id/actionUpgradeSteak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_money"
             android:onClick="onClick"
             android:layout_weight="1"
-            android:text="@string/actionBuyUpgrade" />
+            android:text="@string/actionUpgrade" />
 
         <Button
             android:id="@+id/actionMrHandySteak"
@@ -147,14 +165,32 @@
 
     </TableRow>
 
-    <Button
-        android:id="@+id/actionCollectSteak"
-        android:layout_width="wrap_content"
+    <TableRow
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:drawableLeft="@drawable/ic_collect"
-        android:onClick="onClick"
-        android:text="@string/actionCollect" />
+        android:layout_margin="8dp">
+
+        <Button
+            android:id="@+id/actionBuySteak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_money"
+            android:onClick="onClick"
+            android:text="@string/actionBuy" />
+
+        <Button
+            android:id="@+id/actionCollectSteak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_collect"
+            android:onClick="onClick"
+            android:text="@string/actionCollect" />
+
+    </TableRow>
 
     <TableRow
         android:layout_width="wrap_content"
@@ -182,13 +218,13 @@
         android:layout_margin="8dp">
 
         <Button
-            android:id="@+id/actionBuyCola"
+            android:id="@+id/actionUpgradeCola"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_money"
             android:onClick="onClick"
             android:layout_weight="1"
-            android:text="@string/actionBuyUpgrade" />
+            android:text="@string/actionUpgrade" />
 
         <Button
             android:id="@+id/actionMrHandyCola"
@@ -201,13 +237,31 @@
 
     </TableRow>
 
-    <Button
-        android:id="@+id/actionCollectCola"
-        android:layout_width="wrap_content"
+    <TableRow
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_collect"
-        android:gravity="center"
-        android:onClick="onClick"
-        android:text="@string/actionCollect" />
+        android:layout_margin="8dp">
+
+        <Button
+            android:id="@+id/actionBuyCola"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_money"
+            android:onClick="onClick"
+            android:text="@string/actionBuy" />
+
+        <Button
+            android:id="@+id/actionCollectCola"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_collect"
+            android:onClick="onClick"
+            android:text="@string/actionCollect" />
+
+    </TableRow>
 
 </TableLayout>

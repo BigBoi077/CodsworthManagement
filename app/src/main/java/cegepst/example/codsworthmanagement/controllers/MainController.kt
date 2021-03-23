@@ -14,6 +14,8 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     private var vault = vault
     private var weakReference = WeakReference(mainActivity)
     private val database = AppStore(mainActivity)
+    private val screenManager = ScreenController(weakReference, vault)
+
 
     private lateinit var capsView: TextView
     private lateinit var waterView: TextView
@@ -40,6 +42,15 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     fun updateContent() {
         GlobalScope.launch {
             database.vaultDAO().update(vault)
+            loadContent()
         }
+    }
+
+    fun updateButtons() {
+        screenManager.lockAccordingButtons()
+    }
+
+    fun buyWater() {
+
     }
 }

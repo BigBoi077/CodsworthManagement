@@ -10,7 +10,10 @@ class VaultManager(appStore: AppStore, vaultNumber: Long) {
 
     private fun registerVault(lambda: (Vault) -> Unit) {
         GlobalScope.launch {
-            val vault = Vault(vaultNumber, 0, 0, 0, 0, 0)
+            val vault = Vault(vaultNumber,
+                    0, 0, 0, 0, 0,
+                    false, false, false,
+                    0.0, 0.0, 0.0)
             database.vaultDAO().insert(vault)
             withContext(Dispatchers.Main) {
                 lambda(vault)
