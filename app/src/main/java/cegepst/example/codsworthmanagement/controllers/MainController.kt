@@ -11,7 +11,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
-private const val PRODUCTION_TIME_RATIO = 0.0
+private const val PRODUCTION_TIME_RATIO = 0.05
 
 class MainController(mainActivity: MainActivity, vault: Vault) {
 

@@ -3,7 +3,7 @@ package cegepst.example.codsworthmanagement.models
 class Constants {
     companion object {
         val maxAmelioration: Int = 18
-        val timeDecreaseRatio: Double = 0.05
+
 
         val waterInitialCost: Int = 0
         val waterModificationPrice: Int = 25

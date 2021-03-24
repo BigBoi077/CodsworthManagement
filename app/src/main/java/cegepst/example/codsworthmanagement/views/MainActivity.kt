@@ -15,6 +15,9 @@ import cegepst.example.codsworthmanagement.stores.AppStore
 
 class MainActivity : AppCompatActivity() {
 
+    // TODO : make the game loop in a controller for collection of water, steak and cola
+    // TODO : maybe make models for collecting (isolate variables)
+
     private lateinit var manager: VaultManager
     private lateinit var controller: MainController
     private lateinit var vault: Vault
