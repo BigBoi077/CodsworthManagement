@@ -2,7 +2,6 @@ package cegepst.example.codsworthmanagement.views
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,16 +12,11 @@ import cegepst.example.codsworthmanagement.controllers.MainController
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.models.VaultManager
 import cegepst.example.codsworthmanagement.stores.AppStore
-import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 
-    // TODO : make the game loop in a controller for collection of water, steak and cola
-    // TODO : maybe make models for collecting (isolate variables)
-
     private lateinit var manager: VaultManager
     private lateinit var controller: MainController
-    private lateinit var vault: Vault
     private var vaultNumber: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,9 +66,7 @@ class MainActivity : AppCompatActivity() {
             R.id.actionCollectCola -> controller.collectCola()
         }
         controller.saveVault()
-
-        Log.d("VAULT", Gson().toJson(vault))
-
+        controller.printVault()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -100,7 +92,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadVault(vault: Vault) {
-        this.vault = vault
         this.controller = MainController(this, vault)
         this.controller.initVariables()
         this.controller.refreshContent()

@@ -1,5 +1,6 @@
 package cegepst.example.codsworthmanagement.controllers
 
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import cegepst.example.codsworthmanagement.R
@@ -7,6 +8,7 @@ import cegepst.example.codsworthmanagement.models.Constants
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.stores.AppStore
 import cegepst.example.codsworthmanagement.views.MainActivity
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -92,6 +94,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         } else {
             if (hasEnoughMoney(Constants.waterInitialCost)) {
                 vault.hasBoughtWater = true
+                saveVault()
             }
         }
     }
@@ -104,16 +107,10 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
                 alert("This resource is maxed out")
                 return
             }
-            if (hasEnoughMoney(
-                    calculateResourceFee(
-                        Constants.waterModificationPrice,
-                        vault.waterUpgrades
-                    )
-                )
-            ) {
+            if (hasEnoughMoney(calculateResourceFee(Constants.waterModificationPrice, vault.waterUpgrades))) {
                 vault.waterUpgrades++
                 vault.waterCollectDelay =
-                    calculateDelay(Constants.waterProductionTime, vault.waterUpgrades)
+                        calculateDelay(Constants.waterProductionTime, vault.waterUpgrades)
                 gameController.changeInterval("water", vault.waterCollectDelay)
             }
         }
@@ -121,6 +118,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
 
     fun collectWater() {
         if (gameController.canCollect("water")) {
+            alert("Collected water")
             vault.nbrCaps += Constants.waterRevenue
             gameController.hasCollected("water")
         }
@@ -132,6 +130,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         } else {
             if (hasEnoughMoney(Constants.steakInitialCost)) {
                 vault.hasBoughtSteak = true
+                saveVault()
             }
         }
     }
@@ -144,23 +143,19 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
                 alert("This resource is maxed out")
                 return
             }
-            if (hasEnoughMoney(
-                    calculateResourceFee(
-                        Constants.steakModificationPrice,
-                        vault.steakUpgrades
-                    )
-                )
-            ) {
+            if (hasEnoughMoney(calculateResourceFee(Constants.steakModificationPrice, vault.steakUpgrades))) {
                 vault.steakUpgrades++
                 vault.steakCollectDelay =
-                    calculateDelay(Constants.steakProductionTime, vault.steakUpgrades)
+                        calculateDelay(Constants.steakProductionTime, vault.steakUpgrades)
             }
         }
     }
 
     fun collectSteak() {
         if (gameController.canCollect("steak")) {
+            alert("Collected steak")
             vault.nbrCaps += Constants.steakRevenue
+            gameController.hasCollected("steak")
         }
     }
 
@@ -170,6 +165,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         } else {
             if (hasEnoughMoney(Constants.colaInitialCost)) {
                 vault.hasBoughtCola = true
+                saveVault()
             }
         }
     }
@@ -182,23 +178,23 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
                 alert("This resource is maxed out")
                 return
             }
-            if (hasEnoughMoney(
-                    calculateResourceFee(
-                        Constants.colaModificationPrice,
-                        vault.nukaColaUpgrades
-                    )
-                )
-            ) {
+            if (hasEnoughMoney(calculateResourceFee(Constants.colaModificationPrice, vault.nukaColaUpgrades))) {
                 vault.nukaColaUpgrades++
                 vault.colaCollectDelay =
-                    calculateDelay(Constants.colaProductionTime, vault.nukaColaUpgrades)
+                        calculateDelay(Constants.colaProductionTime, vault.nukaColaUpgrades)
             }
         }
     }
 
     fun collectCola() {
         if (gameController.canCollect("cola")) {
+            alert("Collected cola")
             vault.nbrCaps += Constants.colaRevenue
+            gameController.hasCollected("cola")
         }
+    }
+
+    fun printVault() {
+        Log.d("VAULT", Gson().toJson(vault))
     }
 }
