@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
 
     fun onClick(view: View) {
         controller.updateButtons()
-        controller.saveVault()
         when (view.id) {
             R.id.actionBuyWater -> controller.buyWater()
             R.id.actionUpgradeWater -> controller.upgradeWater()

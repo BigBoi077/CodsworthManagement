@@ -20,7 +20,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     private var vault = vault
     private var weakReference = WeakReference(mainActivity)
     private val database = AppStore(mainActivity)
-    private val screenManager = ScreenController(weakReference, vault)
+    private val screenManager = ScreenController(weakReference)
     private val gameController = GameController(this, vault)
 
     private lateinit var capsView: TextView
@@ -63,7 +63,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     }
 
     fun updateButtons() {
-        screenManager.lockAccordingButtons()
+        screenManager.lockAccordingButtons(vault)
     }
 
     private fun hasEnoughMoney(wantedCapsQuantity: Int): Boolean {
@@ -82,7 +82,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         return wantedNbrUpgrades > Constants.maxAmelioration
     }
 
-    private fun calculateDelay(productionTime: Int, nbrUpgrades: Int): Double {
+    private fun calculateDelay(productionTime: Double, nbrUpgrades: Int): Double {
         return productionTime - (productionTime * (nbrUpgrades * PRODUCTION_TIME_RATIO))
     }
 

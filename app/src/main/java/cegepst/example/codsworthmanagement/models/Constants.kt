@@ -2,25 +2,24 @@ package cegepst.example.codsworthmanagement.models
 
 class Constants {
     companion object {
-        val maxAmelioration: Int = 18
+        const val maxAmelioration: Int = 18
 
+        const val waterInitialCost: Int = 0
+        const val waterModificationPrice: Int = 25
+        const val waterMrHandyPrice: Int = 1000
+        const val waterRevenue: Int = 5
+        const val waterProductionTime: Double = 2.0
 
-        val waterInitialCost: Int = 0
-        val waterModificationPrice: Int = 25
-        val waterMrHandyPrice: Int = 1000
-        val waterRevenue: Int = 5
-        val waterProductionTime: Int = 2
+        const val steakInitialCost: Int = 1000
+        const val steakModificationPrice: Int = 250
+        const val steakMrHandyPrice: Int = 5000
+        const val steakRevenue: Int = 50
+        const val steakProductionTime: Double = 10.0
 
-        val steakInitialCost: Int = 1000
-        val steakModificationPrice: Int = 250
-        val steakMrHandyPrice: Int = 5000
-        val steakRevenue: Int = 50
-        val steakProductionTime: Int = 10
-
-        val colaInitialCost: Int = 10000
-        val colaModificationPrice: Int = 10000
-        val colaMrHandyPrice: Int = 25000
-        val colaRevenue: Int = 500
-        val colaProductionTime: Int = 30
+        const val colaInitialCost: Int = 10000
+        const val colaModificationPrice: Int = 10000
+        const val colaMrHandyPrice: Int = 25000
+        const val colaRevenue: Int = 500
+        const val colaProductionTime: Double = 30.0
     }
 }
