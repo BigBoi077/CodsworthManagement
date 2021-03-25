@@ -7,8 +7,10 @@ import cegepst.example.codsworthmanagement.models.Constants
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.stores.AppStore
 import cegepst.example.codsworthmanagement.views.MainActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 
 private const val PRODUCTION_TIME_RATIO = 0.05
@@ -19,12 +21,20 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     private var weakReference = WeakReference(mainActivity)
     private val database = AppStore(mainActivity)
     private val screenManager = ScreenController(weakReference, vault)
-    private val disposableController = DisposableController(this, vault)
+    private val gameController = GameController(this, vault)
 
     private lateinit var capsView: TextView
     private lateinit var waterView: TextView
     private lateinit var steakView: TextView
     private lateinit var colaView: TextView
+
+    fun kill() {
+        gameController.dispose()
+    }
+
+    fun start() {
+        gameController.start()
+    }
 
     fun initVariables() {
         capsView = weakReference.get()!!.findViewById(R.id.quantityCaps)
@@ -36,10 +46,12 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     fun refreshContent() {
         GlobalScope.launch {
             vault = database.vaultDAO().get(vault.id)
-            capsView.text = "${vault.nbrCaps} caps"
-            waterView.text = "${vault.waterUpgrades} water"
-            steakView.text = "${vault.steakUpgrades} steaks"
-            colaView.text = "${vault.nukaColaUpgrades} cola"
+            withContext(Dispatchers.Main) {
+                capsView.text = "${vault.nbrCaps} caps"
+                waterView.text = "${vault.waterUpgrades} water"
+                steakView.text = "${vault.steakUpgrades} steaks"
+                colaView.text = "${vault.nukaColaUpgrades} cola"
+            }
         }
     }
 
@@ -92,10 +104,25 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
                 alert("This resource is maxed out")
                 return
             }
-            if (hasEnoughMoney(calculateResourceFee(Constants.waterModificationPrice, vault.waterUpgrades))) {
+            if (hasEnoughMoney(
+                    calculateResourceFee(
+                        Constants.waterModificationPrice,
+                        vault.waterUpgrades
+                    )
+                )
+            ) {
                 vault.waterUpgrades++
-                vault.waterCollectDelay = calculateDelay(Constants.waterProductionTime, vault.waterUpgrades)
+                vault.waterCollectDelay =
+                    calculateDelay(Constants.waterProductionTime, vault.waterUpgrades)
+                gameController.changeInterval("water", vault.waterCollectDelay)
             }
+        }
+    }
+
+    fun collectWater() {
+        if (gameController.canCollect("water")) {
+            vault.nbrCaps += Constants.waterRevenue
+            gameController.hasCollected("water")
         }
     }
 
@@ -117,10 +144,23 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
                 alert("This resource is maxed out")
                 return
             }
-            if (hasEnoughMoney(calculateResourceFee(Constants.steakModificationPrice, vault.steakUpgrades))) {
+            if (hasEnoughMoney(
+                    calculateResourceFee(
+                        Constants.steakModificationPrice,
+                        vault.steakUpgrades
+                    )
+                )
+            ) {
                 vault.steakUpgrades++
-                vault.steakCollectDelay = calculateDelay(Constants.steakProductionTime, vault.steakUpgrades)
+                vault.steakCollectDelay =
+                    calculateDelay(Constants.steakProductionTime, vault.steakUpgrades)
             }
+        }
+    }
+
+    fun collectSteak() {
+        if (gameController.canCollect("steak")) {
+            vault.nbrCaps += Constants.steakRevenue
         }
     }
 
@@ -142,22 +182,23 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
                 alert("This resource is maxed out")
                 return
             }
-            if (hasEnoughMoney(calculateResourceFee(Constants.colaModificationPrice, vault.nukaColaUpgrades))) {
+            if (hasEnoughMoney(
+                    calculateResourceFee(
+                        Constants.colaModificationPrice,
+                        vault.nukaColaUpgrades
+                    )
+                )
+            ) {
                 vault.nukaColaUpgrades++
-                vault.colaCollectDelay = calculateDelay(Constants.colaProductionTime, vault.nukaColaUpgrades)
+                vault.colaCollectDelay =
+                    calculateDelay(Constants.colaProductionTime, vault.nukaColaUpgrades)
             }
         }
     }
 
-    fun placeDisposableEvents() {
-        disposableController.placeSaveEvents()
-    }
-
-    fun killDisposables() {
-        disposableController.dispose()
-    }
-
-    fun collectWater() {
-        TODO("Not yet implemented")
+    fun collectCola() {
+        if (gameController.canCollect("cola")) {
+            vault.nbrCaps += Constants.colaRevenue
+        }
     }
 }

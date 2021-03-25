@@ -2,6 +2,7 @@ package cegepst.example.codsworthmanagement.views
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,6 +13,7 @@ import cegepst.example.codsworthmanagement.controllers.MainController
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.models.VaultManager
 import cegepst.example.codsworthmanagement.stores.AppStore
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         controller.saveVault()
-        controller.killDisposables()
+        controller.kill()
     }
 
     private fun initContent() {
@@ -51,11 +53,12 @@ class MainActivity : AppCompatActivity() {
         val welcomeText = findViewById<TextView>(R.id.welcomePrompt)
         val vaultNumber = intent.getStringExtra("vaultNumber")
         this.vaultNumber = vaultNumber.toString().toLong()
-        welcomeText.text = resources.getText(R.string.formatWelcome, vaultNumber)
+        welcomeText.text = "Welcome to vault $vaultNumber"
     }
 
     fun onClick(view: View) {
         controller.updateButtons()
+        controller.saveVault()
         when (view.id) {
             R.id.actionBuyWater -> controller.buyWater()
             R.id.actionUpgradeWater -> controller.upgradeWater()
@@ -63,11 +66,16 @@ class MainActivity : AppCompatActivity() {
 
             R.id.actionBuySteak -> controller.buySteak()
             R.id.actionUpgradeSteak -> controller.upgradeSteak()
+            R.id.actionCollectSteak -> controller.collectSteak()
 
             R.id.actionBuyCola -> controller.buyCola()
             R.id.actionUpgradeCola -> controller.upgradeCola()
+            R.id.actionCollectCola -> controller.collectCola()
         }
         controller.saveVault()
+
+        Log.d("VAULT", Gson().toJson(vault))
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -98,10 +106,6 @@ class MainActivity : AppCompatActivity() {
         this.controller.initVariables()
         this.controller.refreshContent()
         this.controller.updateButtons()
-        placeUpdateEvent()
-    }
-
-    private fun placeUpdateEvent() {
-        controller.placeDisposableEvents()
+        this.controller.start()
     }
 }

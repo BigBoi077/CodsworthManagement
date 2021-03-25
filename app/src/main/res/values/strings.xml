@@ -11,5 +11,4 @@
     <string name="actionQuit">Quit Vault</string>
     <string name="actionUpgrade">Upgrade</string>
     <string name="actionBuy">Buy</string>
-    <string name="formatWelcome">Welcome to vault %d</string>
 </resources>
