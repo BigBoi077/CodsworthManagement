@@ -94,6 +94,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         } else {
             if (hasEnoughMoney(Constants.waterInitialCost)) {
                 vault.hasBoughtWater = true
+                vault.nbrCaps -= Constants.waterInitialCost
                 saveVault()
             }
         }
@@ -107,13 +108,15 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
                 alert("This resource is maxed out")
                 return
             }
-            if (hasEnoughMoney(calculateResourceFee(Constants.waterModificationPrice, vault.waterUpgrades))) {
+            val cost = calculateResourceFee(Constants.waterModificationPrice, vault.waterUpgrades)
+            if (hasEnoughMoney(cost)) {
                 vault.waterUpgrades++
-                vault.waterCollectDelay =
-                        calculateDelay(Constants.waterProductionTime, vault.waterUpgrades)
+                vault.waterCollectDelay = calculateDelay(Constants.waterProductionTime, vault.waterUpgrades)
+                vault.nbrCaps -= cost
                 gameController.changeInterval("water", vault.waterCollectDelay)
             }
         }
+        saveVault()
     }
 
     fun collectWater() {
@@ -121,7 +124,9 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             alert("Collected water")
             vault.nbrCaps += Constants.waterRevenue
             gameController.hasCollected("water")
+            gameController.setNewTimestamp("water")
         }
+        saveVault()
     }
 
     fun buySteak() {
@@ -130,6 +135,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         } else {
             if (hasEnoughMoney(Constants.steakInitialCost)) {
                 vault.hasBoughtSteak = true
+                vault.nbrCaps -= Constants.steakInitialCost
                 saveVault()
             }
         }
@@ -143,12 +149,14 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
                 alert("This resource is maxed out")
                 return
             }
-            if (hasEnoughMoney(calculateResourceFee(Constants.steakModificationPrice, vault.steakUpgrades))) {
+            val cost = calculateResourceFee(Constants.steakModificationPrice, vault.steakUpgrades)
+            if (hasEnoughMoney(cost)) {
                 vault.steakUpgrades++
-                vault.steakCollectDelay =
-                        calculateDelay(Constants.steakProductionTime, vault.steakUpgrades)
+                vault.steakCollectDelay = calculateDelay(Constants.steakProductionTime, vault.steakUpgrades)
+                vault.nbrCaps -= cost
             }
         }
+        saveVault()
     }
 
     fun collectSteak() {
@@ -156,7 +164,9 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             alert("Collected steak")
             vault.nbrCaps += Constants.steakRevenue
             gameController.hasCollected("steak")
+            gameController.setNewTimestamp("steak")
         }
+        saveVault()
     }
 
     fun buyCola() {
@@ -165,6 +175,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         } else {
             if (hasEnoughMoney(Constants.colaInitialCost)) {
                 vault.hasBoughtCola = true
+                vault.nbrCaps -= Constants.colaInitialCost
                 saveVault()
             }
         }
@@ -178,12 +189,14 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
                 alert("This resource is maxed out")
                 return
             }
-            if (hasEnoughMoney(calculateResourceFee(Constants.colaModificationPrice, vault.nukaColaUpgrades))) {
+            val cost = calculateResourceFee(Constants.colaModificationPrice, vault.nukaColaUpgrades)
+            if (hasEnoughMoney(cost)) {
                 vault.nukaColaUpgrades++
-                vault.colaCollectDelay =
-                        calculateDelay(Constants.colaProductionTime, vault.nukaColaUpgrades)
+                vault.colaCollectDelay = calculateDelay(Constants.colaProductionTime, vault.nukaColaUpgrades)
+                vault.nbrCaps -= cost
             }
         }
+        saveVault()
     }
 
     fun collectCola() {
@@ -191,7 +204,9 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             alert("Collected cola")
             vault.nbrCaps += Constants.colaRevenue
             gameController.hasCollected("cola")
+            gameController.setNewTimestamp("cola")
         }
+        saveVault()
     }
 
     fun printVault() {

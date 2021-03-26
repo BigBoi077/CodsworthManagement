@@ -24,7 +24,7 @@ abstract class AppStore : RoomDatabase() {
         private fun buildDatabase(context: Context) = Room.databaseBuilder(
                 context,
                 AppStore::class.java,
-                "CodsworthManagement-3"
+                "CodsworthManagement-4"
         ).build()
     }
 }

@@ -9,8 +9,9 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
+import kotlin.math.absoluteValue
 
-private const val SAVE_INTERVAL = 60
+private const val SAVE_INTERVAL = 60000
 
 class GameController(mainController: MainController, vault: Vault) {
 
@@ -34,9 +35,9 @@ class GameController(mainController: MainController, vault: Vault) {
 
     private fun initCollectibles() {
         collectibles = HashMap()
-        collectibles["water"] = Collectible(vault.waterCollectDelay, elapsed)
-        collectibles["steak"] = Collectible(vault.steakCollectDelay, elapsed)
-        collectibles["cola"] = Collectible(vault.colaCollectDelay, elapsed)
+        collectibles["water"] = Collectible(vault.waterCollectDelay, TimeUnit.NANOSECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS))
+        collectibles["steak"] = Collectible(vault.steakCollectDelay, TimeUnit.NANOSECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS))
+        collectibles["cola"] = Collectible(vault.colaCollectDelay, TimeUnit.NANOSECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS))
     }
 
     fun dispose() {
@@ -95,10 +96,18 @@ class GameController(mainController: MainController, vault: Vault) {
     }
 
     private fun canCollect(collectible: Collectible): Boolean {
-        return elapsed.toDouble() - collectible.lastCollectTimestamp.toDouble() >= collectible.interval
+        return elapsed.get().absoluteValue.toDouble() - collectible.lastCollectTimestamp.toDouble() >= collectible.interval
     }
 
     private fun canSave(): Boolean {
         return elapsed.toInt() % SAVE_INTERVAL == 0
+    }
+
+    fun setNewTimestamp(collectible: String) {
+        collectibles[collectible]!!.lastCollectTimestamp = TimeUnit.NANOSECONDS.convert(elapsed.get().absoluteValue, TimeUnit.NANOSECONDS)
+    }
+
+    fun round(number: Double): Double {
+        return Math.round(number * 100) / 100.0
     }
 }
