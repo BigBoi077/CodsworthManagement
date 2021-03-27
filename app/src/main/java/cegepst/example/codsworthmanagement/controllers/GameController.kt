@@ -1,5 +1,6 @@
 package cegepst.example.codsworthmanagement.controllers
 
+import android.util.Log
 import cegepst.example.codsworthmanagement.models.Collectible
 import cegepst.example.codsworthmanagement.models.Vault
 import io.reactivex.Observable
@@ -35,9 +36,9 @@ class GameController(mainController: MainController, vault: Vault) {
 
     private fun initCollectibles() {
         collectibles = HashMap()
-        collectibles["water"] = Collectible(vault.waterCollectDelay, TimeUnit.NANOSECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS))
-        collectibles["steak"] = Collectible(vault.steakCollectDelay, TimeUnit.NANOSECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS))
-        collectibles["cola"] = Collectible(vault.colaCollectDelay, TimeUnit.NANOSECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS))
+        collectibles["water"] = Collectible(vault.waterCollectDelay)
+        collectibles["steak"] = Collectible(vault.steakCollectDelay)
+        collectibles["cola"] = Collectible(vault.colaCollectDelay)
     }
 
     fun dispose() {
@@ -96,7 +97,17 @@ class GameController(mainController: MainController, vault: Vault) {
     }
 
     private fun canCollect(collectible: Collectible): Boolean {
-        return elapsed.get().absoluteValue.toDouble() - collectible.lastCollectTimestamp.toDouble() >= collectible.interval
+        val elapsed = TimeUnit.NANOSECONDS.toSeconds(this.elapsed.get().absoluteValue)
+        val tempAtomic = AtomicLong(collectible.lastCollectTimestamp)
+        val timestamp = TimeUnit.NANOSECONDS.toSeconds(tempAtomic.get().absoluteValue)
+        Log.d("ELAPSED", "${elapsed}")
+
+        Log.d("TIME", "${timestamp}")
+
+        Log.d("INTERVAL", "${collectible.interval}")
+
+        Log.d("DEBUG", "${elapsed - timestamp >= collectible.interval}")
+        return elapsed - timestamp >= collectible.interval
     }
 
     private fun canSave(): Boolean {

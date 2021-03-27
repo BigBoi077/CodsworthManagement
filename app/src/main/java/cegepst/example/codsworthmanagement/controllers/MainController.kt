@@ -110,9 +110,9 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             }
             val cost = calculateResourceFee(Constants.waterModificationPrice, vault.waterUpgrades)
             if (hasEnoughMoney(cost)) {
-                vault.waterUpgrades++
+                vault.waterUpgrades = vault.waterUpgrades + 1
                 vault.waterCollectDelay = calculateDelay(Constants.waterProductionTime, vault.waterUpgrades)
-                vault.nbrCaps -= cost
+                vault.nbrCaps = vault.nbrCaps - cost
                 gameController.changeInterval("water", vault.waterCollectDelay)
             }
         }
@@ -151,9 +151,9 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             }
             val cost = calculateResourceFee(Constants.steakModificationPrice, vault.steakUpgrades)
             if (hasEnoughMoney(cost)) {
-                vault.steakUpgrades++
+                vault.steakUpgrades = vault.steakUpgrades + 1
                 vault.steakCollectDelay = calculateDelay(Constants.steakProductionTime, vault.steakUpgrades)
-                vault.nbrCaps -= cost
+                vault.nbrCaps = vault.nbrCaps - cost
             }
         }
         saveVault()
@@ -191,9 +191,9 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             }
             val cost = calculateResourceFee(Constants.colaModificationPrice, vault.nukaColaUpgrades)
             if (hasEnoughMoney(cost)) {
-                vault.nukaColaUpgrades++
+                vault.nukaColaUpgrades = vault.nukaColaUpgrades + 1
                 vault.colaCollectDelay = calculateDelay(Constants.colaProductionTime, vault.nukaColaUpgrades)
-                vault.nbrCaps -= cost
+                vault.nbrCaps = vault.nbrCaps - cost
             }
         }
         saveVault()

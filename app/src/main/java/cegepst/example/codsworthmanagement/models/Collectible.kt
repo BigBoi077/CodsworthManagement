@@ -1,7 +1,7 @@
 package cegepst.example.codsworthmanagement.models
 
-class Collectible(interval: Double, timestamp: Long) {
+class Collectible(interval: Double) {
     var interval = interval
     var canCollect = false
-    var lastCollectTimestamp = timestamp
+    var lastCollectTimestamp = 0L
 }
