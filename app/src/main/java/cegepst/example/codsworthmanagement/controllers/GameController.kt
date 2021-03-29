@@ -89,8 +89,10 @@ class GameController(mainController: MainController, vault: Vault) {
             if (canCollect(collectible.value)) {
                 if (collectible.value.isMrHandyActivated) {
                     mainController.collect(collectible.key)
+                    collectible.value.canCollect = false
+                } else {
+                    collectible.value.canCollect = true
                 }
-                collectible.value.canCollect = true
             }
         }
     }
@@ -118,5 +120,9 @@ class GameController(mainController: MainController, vault: Vault) {
 
     private fun compareBitwise(bitwise: Int): Boolean {
         return BitwiseManager.hasMrHandy(vault.mrHandy, bitwise)
+    }
+
+    fun updateMrHandy(name: String) {
+        collectibles[name]!!.isMrHandyActivated = true
     }
 }

@@ -215,6 +215,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             if (canBuyMrHandy(Constants.waterMrHandyPrice)) {
                 vault.nbrCaps = vault.nbrCaps - Constants.waterMrHandyPrice
                 vault.mrHandy += Constants.waterBitwiseValue
+                gameController.updateMrHandy("water")
             } else {
                 alert("You do not have enough caps")
             }
@@ -226,6 +227,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             if (canBuyMrHandy(Constants.steakMrHandyPrice)) {
                 vault.nbrCaps = vault.nbrCaps - Constants.steakMrHandyPrice
                 vault.mrHandy += Constants.steakBitwiseValue
+                gameController.updateMrHandy("steak")
             } else {
                 alert("You do not have enough caps")
             }
@@ -237,6 +239,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             if (canBuyMrHandy(Constants.colaMrHandyPrice)) {
                 vault.nbrCaps = vault.nbrCaps - Constants.colaMrHandyPrice
                 vault.mrHandy += Constants.colaBitwiseValue
+                gameController.updateMrHandy("cola")
             } else {
                 alert("You do not have enough caps")
             }
