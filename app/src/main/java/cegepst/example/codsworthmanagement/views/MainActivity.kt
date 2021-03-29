@@ -15,10 +15,6 @@ import cegepst.example.codsworthmanagement.stores.AppStore
 
 class MainActivity : AppCompatActivity() {
 
-    // TODO : verify the time comparison the add the mrHandy implementation
-    // TODO : verify the deletion and the dispose for the game loop
-    // TODO : why interval -1.0
-
     private lateinit var manager: VaultManager
     private lateinit var controller: MainController
     private var vaultNumber: Long = 0
