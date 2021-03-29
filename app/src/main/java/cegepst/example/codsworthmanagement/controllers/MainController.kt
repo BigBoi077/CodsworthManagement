@@ -246,4 +246,13 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     private fun canBuyMrHandy(price: Int): Boolean {
         return vault.nbrCaps >= price
     }
+
+    fun collect(name: String) {
+        when (name) {
+            "water" -> vault.nbrCaps += Constants.waterRevenue
+            "steak" -> vault.nbrCaps += Constants.steakRevenue
+            "cola" -> vault.nbrCaps += Constants.colaRevenue
+        }
+        saveVault()
+    }
 }

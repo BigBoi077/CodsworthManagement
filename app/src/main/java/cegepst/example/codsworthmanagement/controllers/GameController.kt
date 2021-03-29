@@ -87,6 +87,9 @@ class GameController(mainController: MainController, vault: Vault) {
     private fun checkCollectibleIntervals() {
         for (collectible in collectibles) {
             if (canCollect(collectible.value)) {
+                if (collectible.value.isMrHandyActivated) {
+                    mainController.collect(collectible.key)
+                }
                 collectible.value.canCollect = true
             }
         }
