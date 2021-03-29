@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     // TODO : verify the time comparison the add the mrHandy implementation
     // TODO : verify the deletion and the dispose for the game loop
+    // TODO : why interval -1.0
 
     private lateinit var manager: VaultManager
     private lateinit var controller: MainController
@@ -59,16 +60,20 @@ class MainActivity : AppCompatActivity() {
             R.id.actionBuyWater -> controller.buyWater()
             R.id.actionUpgradeWater -> controller.upgradeWater()
             R.id.actionCollectWater -> controller.collectWater()
+            R.id.actionMrHandyWater -> controller.buyWaterMrHandy()
 
             R.id.actionBuySteak -> controller.buySteak()
             R.id.actionUpgradeSteak -> controller.upgradeSteak()
             R.id.actionCollectSteak -> controller.collectSteak()
+            R.id.actionMrHandySteak -> controller.buySteakMrHandy()
 
             R.id.actionBuyCola -> controller.buyCola()
             R.id.actionUpgradeCola -> controller.upgradeCola()
             R.id.actionCollectCola -> controller.collectCola()
+            R.id.actionMrHandyCola -> controller.buyColaMrHandy()
         }
         controller.saveVault()
+        controller.refresh()
         controller.printVault()
     }
 

@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import cegepst.example.codsworthmanagement.R
+import cegepst.example.codsworthmanagement.models.BitwiseManager
 import cegepst.example.codsworthmanagement.models.Constants
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.stores.AppStore
@@ -95,7 +96,6 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             if (hasEnoughMoney(Constants.waterInitialCost)) {
                 vault.hasBoughtWater = true
                 vault.nbrCaps -= Constants.waterInitialCost
-                saveVault()
             }
         }
     }
@@ -104,7 +104,8 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         if (!vault.hasBoughtWater) {
             alert("You have not bought water yet")
         } else {
-            if (maxedOutUpgrades(vault.waterUpgrades++)) {
+            var wantedNbrUpgrades = vault.waterUpgrades
+            if (maxedOutUpgrades(wantedNbrUpgrades++)) {
                 alert("This resource is maxed out")
                 return
             }
@@ -116,17 +117,14 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
                 gameController.changeInterval("water", vault.waterCollectDelay)
             }
         }
-        saveVault()
     }
 
     fun collectWater() {
         if (gameController.canCollect("water")) {
-            alert("Collected water")
             vault.nbrCaps += Constants.waterRevenue
             gameController.hasCollected("water")
             gameController.setNewTimestamp("water")
         }
-        saveVault()
     }
 
     fun buySteak() {
@@ -136,7 +134,6 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             if (hasEnoughMoney(Constants.steakInitialCost)) {
                 vault.hasBoughtSteak = true
                 vault.nbrCaps -= Constants.steakInitialCost
-                saveVault()
             }
         }
     }
@@ -145,28 +142,26 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         if (!vault.hasBoughtSteak) {
             alert("You have not bought steak yet")
         } else {
-            if (maxedOutUpgrades(vault.steakUpgrades++)) {
+            var wantedNbrUpgrades = vault.steakUpgrades
+            if (maxedOutUpgrades(wantedNbrUpgrades++)) {
                 alert("This resource is maxed out")
                 return
             }
             val cost = calculateResourceFee(Constants.steakModificationPrice, vault.steakUpgrades)
             if (hasEnoughMoney(cost)) {
-                vault.steakUpgrades = vault.steakUpgrades + 1
+                vault.steakUpgrades++
                 vault.steakCollectDelay = calculateDelay(Constants.steakProductionTime, vault.steakUpgrades)
                 vault.nbrCaps = vault.nbrCaps - cost
             }
         }
-        saveVault()
     }
 
     fun collectSteak() {
         if (gameController.canCollect("steak")) {
-            alert("Collected steak")
             vault.nbrCaps += Constants.steakRevenue
             gameController.hasCollected("steak")
             gameController.setNewTimestamp("steak")
         }
-        saveVault()
     }
 
     fun buyCola() {
@@ -176,7 +171,6 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             if (hasEnoughMoney(Constants.colaInitialCost)) {
                 vault.hasBoughtCola = true
                 vault.nbrCaps -= Constants.colaInitialCost
-                saveVault()
             }
         }
     }
@@ -185,31 +179,71 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         if (!vault.hasBoughtCola) {
             alert("You have not bought this resource yet")
         } else {
-            if (maxedOutUpgrades(vault.nukaColaUpgrades++)) {
+            var wantedNbrUpgrades = vault.nukaColaUpgrades
+            if (maxedOutUpgrades(wantedNbrUpgrades++)) {
                 alert("This resource is maxed out")
                 return
             }
             val cost = calculateResourceFee(Constants.colaModificationPrice, vault.nukaColaUpgrades)
             if (hasEnoughMoney(cost)) {
-                vault.nukaColaUpgrades = vault.nukaColaUpgrades + 1
+                vault.nukaColaUpgrades++
                 vault.colaCollectDelay = calculateDelay(Constants.colaProductionTime, vault.nukaColaUpgrades)
                 vault.nbrCaps = vault.nbrCaps - cost
             }
         }
-        saveVault()
     }
 
     fun collectCola() {
         if (gameController.canCollect("cola")) {
-            alert("Collected cola")
             vault.nbrCaps += Constants.colaRevenue
             gameController.hasCollected("cola")
             gameController.setNewTimestamp("cola")
         }
-        saveVault()
     }
 
     fun printVault() {
         Log.d("VAULT", Gson().toJson(vault))
+    }
+
+    fun refresh() {
+        refreshContent()
+        screenManager.lockAccordingButtons(vault)
+    }
+
+    fun buyWaterMrHandy() {
+        if (!BitwiseManager.hasMrHandy(vault.mrHandy, Constants.waterBitwiseValue)) {
+            if (canBuyMrHandy(Constants.waterMrHandyPrice)) {
+                vault.nbrCaps = vault.nbrCaps - Constants.waterMrHandyPrice
+                vault.mrHandy += Constants.waterBitwiseValue
+            } else {
+                alert("You do not have enough caps")
+            }
+        }
+    }
+
+    fun buySteakMrHandy() {
+        if (!BitwiseManager.hasMrHandy(vault.mrHandy, Constants.steakBitwiseValue)) {
+            if (canBuyMrHandy(Constants.steakMrHandyPrice)) {
+                vault.nbrCaps = vault.nbrCaps - Constants.steakMrHandyPrice
+                vault.mrHandy += Constants.steakBitwiseValue
+            } else {
+                alert("You do not have enough caps")
+            }
+        }
+    }
+
+    fun buyColaMrHandy() {
+        if (!BitwiseManager.hasMrHandy(vault.mrHandy, Constants.colaBitwiseValue)) {
+            if (canBuyMrHandy(Constants.colaMrHandyPrice)) {
+                vault.nbrCaps = vault.nbrCaps - Constants.colaMrHandyPrice
+                vault.mrHandy += Constants.colaBitwiseValue
+            } else {
+                alert("You do not have enough caps")
+            }
+        }
+    }
+
+    private fun canBuyMrHandy(price: Int): Boolean {
+        return vault.nbrCaps >= price
     }
 }

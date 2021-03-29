@@ -1,7 +1,8 @@
 package cegepst.example.codsworthmanagement.controllers
 
-import android.util.Log
+import cegepst.example.codsworthmanagement.models.BitwiseManager
 import cegepst.example.codsworthmanagement.models.Collectible
+import cegepst.example.codsworthmanagement.models.Constants
 import cegepst.example.codsworthmanagement.models.Vault
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -36,9 +37,9 @@ class GameController(mainController: MainController, vault: Vault) {
 
     private fun initCollectibles() {
         collectibles = HashMap()
-        collectibles["water"] = Collectible(vault.waterCollectDelay)
-        collectibles["steak"] = Collectible(vault.steakCollectDelay)
-        collectibles["cola"] = Collectible(vault.colaCollectDelay)
+        collectibles["water"] = Collectible(vault.waterCollectDelay, compareBitwise(Constants.waterBitwiseValue))
+        collectibles["steak"] = Collectible(vault.steakCollectDelay, compareBitwise(Constants.steakBitwiseValue))
+        collectibles["cola"] = Collectible(vault.colaCollectDelay, compareBitwise(Constants.colaBitwiseValue))
     }
 
     fun dispose() {
@@ -80,6 +81,7 @@ class GameController(mainController: MainController, vault: Vault) {
     private fun refreshGame() {
         checkSave()
         checkCollectibleIntervals()
+        mainController.refresh()
     }
 
     private fun checkCollectibleIntervals() {
@@ -100,13 +102,6 @@ class GameController(mainController: MainController, vault: Vault) {
         val elapsed = TimeUnit.NANOSECONDS.toSeconds(this.elapsed.get().absoluteValue)
         val tempAtomic = AtomicLong(collectible.lastCollectTimestamp)
         val timestamp = TimeUnit.NANOSECONDS.toSeconds(tempAtomic.get().absoluteValue)
-        Log.d("ELAPSED", "${elapsed}")
-
-        Log.d("TIME", "${timestamp}")
-
-        Log.d("INTERVAL", "${collectible.interval}")
-
-        Log.d("DEBUG", "${elapsed - timestamp >= collectible.interval}")
         return elapsed - timestamp >= collectible.interval
     }
 
@@ -118,7 +113,7 @@ class GameController(mainController: MainController, vault: Vault) {
         collectibles[collectible]!!.lastCollectTimestamp = TimeUnit.NANOSECONDS.convert(elapsed.get().absoluteValue, TimeUnit.NANOSECONDS)
     }
 
-    fun round(number: Double): Double {
-        return Math.round(number * 100) / 100.0
+    private fun compareBitwise(bitwise: Int): Boolean {
+        return BitwiseManager.hasMrHandy(vault.mrHandy, bitwise)
     }
 }

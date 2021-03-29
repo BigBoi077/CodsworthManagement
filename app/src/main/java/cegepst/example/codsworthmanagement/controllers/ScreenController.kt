@@ -2,25 +2,39 @@ package cegepst.example.codsworthmanagement.controllers
 
 import android.widget.ImageButton
 import cegepst.example.codsworthmanagement.R
+import cegepst.example.codsworthmanagement.models.BitwiseManager
+import cegepst.example.codsworthmanagement.models.Constants
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.views.MainActivity
 import java.lang.ref.WeakReference
 
 class ScreenController(weakReference: WeakReference<MainActivity>) {
 
-    private val waterBuy = weakReference.get()?.findViewById<ImageButton>(R.id.actionBuyWater)
-    private val waterUpgrade =
-        weakReference.get()?.findViewById<ImageButton>(R.id.actionUpgradeWater)
-    private val steakBuy = weakReference.get()?.findViewById<ImageButton>(R.id.actionBuySteak)
-    private val steakUpgrade =
-        weakReference.get()?.findViewById<ImageButton>(R.id.actionUpgradeSteak)
-    private val colaBuy = weakReference.get()?.findViewById<ImageButton>(R.id.actionBuyCola)
-    private val colaUpgrade = weakReference.get()?.findViewById<ImageButton>(R.id.actionUpgradeCola)
+    private val weakReference = weakReference
+    private val waterBuy = getComponent(R.id.actionBuyWater)
+    private val waterUpgrade = getComponent(R.id.actionUpgradeWater)
+    private val waterMrHandy = getComponent(R.id.actionMrHandyWater)
+    private val steakBuy = getComponent(R.id.actionBuySteak)
+    private val steakUpgrade = getComponent(R.id.actionUpgradeSteak)
+    private val steakMrHandy = getComponent(R.id.actionMrHandySteak)
+    private val colaBuy = getComponent(R.id.actionBuyCola)
+    private val colaUpgrade = getComponent(R.id.actionUpgradeCola)
+    private val colaMrHandy = getComponent(R.id.actionMrHandyCola)
 
     fun lockAccordingButtons(vault: Vault) {
         verifyButtons(waterBuy, waterUpgrade, vault.hasBoughtWater)
         verifyButtons(steakBuy, steakUpgrade, vault.hasBoughtSteak)
         verifyButtons(colaBuy, colaUpgrade, vault.hasBoughtCola)
+        verifyButton(waterMrHandy, vault.mrHandy, Constants.waterBitwiseValue)
+        verifyButton(steakMrHandy, vault.mrHandy, Constants.steakBitwiseValue)
+        verifyButton(colaMrHandy, vault.mrHandy, Constants.colaBitwiseValue)
+    }
+
+    private fun verifyButton(button: ImageButton?, mrHandy: Int, bitwiseValue: Int) {
+        if (BitwiseManager.hasMrHandy(mrHandy, bitwiseValue)) {
+            button?.isEnabled = false
+            button?.isClickable = false
+        }
     }
 
     private fun verifyButtons(buy: ImageButton?, upgrade: ImageButton?, hasBought: Boolean) {
@@ -43,5 +57,9 @@ class ScreenController(weakReference: WeakReference<MainActivity>) {
         upgrade?.isClickable = false
         buy?.isEnabled = true
         buy?.isClickable = true
+    }
+
+    private fun getComponent(id: Int): ImageButton? {
+        return weakReference.get()?.findViewById(id)
     }
 }
