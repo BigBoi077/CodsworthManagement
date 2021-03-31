@@ -5,6 +5,7 @@ import android.widget.TextView
 import android.widget.Toast
 import cegepst.example.codsworthmanagement.R
 import cegepst.example.codsworthmanagement.models.BitwiseManager
+import cegepst.example.codsworthmanagement.models.Collectible
 import cegepst.example.codsworthmanagement.models.Constants
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.stores.AppStore
@@ -124,6 +125,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
             vault.nbrCaps += Constants.waterRevenue
             gameController.hasCollected("water")
             gameController.setNewTimestamp("water")
+            screenManager.resetProgressbar("water")
         }
     }
 
@@ -205,8 +207,9 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
         Log.d("VAULT", Gson().toJson(vault))
     }
 
-    fun refresh() {
+    fun refresh(collectibles: HashMap<String, Collectible>) {
         refreshContent()
+        screenManager.updateProgressBars(collectibles)
         screenManager.lockAccordingButtons(vault)
     }
 

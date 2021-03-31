@@ -80,6 +80,13 @@
 
     </TableRow>
 
+    <ProgressBar
+        android:id="@+id/waterProgress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp" />
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -143,6 +150,13 @@
 
     </TableRow>
 
+    <ProgressBar
+        android:id="@+id/steakProgress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp" />
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -205,6 +219,13 @@
             android:gravity="center" />
 
     </TableRow>
+
+    <ProgressBar
+        android:id="@+id/colaProgress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp" />
 
     <TableRow
         android:layout_width="match_parent"

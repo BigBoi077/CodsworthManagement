@@ -1,12 +1,15 @@
 package cegepst.example.codsworthmanagement.controllers
 
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import cegepst.example.codsworthmanagement.R
 import cegepst.example.codsworthmanagement.models.BitwiseManager
+import cegepst.example.codsworthmanagement.models.Collectible
 import cegepst.example.codsworthmanagement.models.Constants
 import cegepst.example.codsworthmanagement.models.Vault
 import cegepst.example.codsworthmanagement.views.MainActivity
 import java.lang.ref.WeakReference
+import kotlin.math.roundToInt
 
 class ScreenController(weakReference: WeakReference<MainActivity>) {
 
@@ -20,6 +23,13 @@ class ScreenController(weakReference: WeakReference<MainActivity>) {
     private val colaBuy = getComponent(R.id.actionBuyCola)
     private val colaUpgrade = getComponent(R.id.actionUpgradeCola)
     private val colaMrHandy = getComponent(R.id.actionMrHandyCola)
+    private val progressBars = HashMap<String, ProgressBar>()
+
+    init {
+        progressBars["water"] = weakReference.get()!!.findViewById(R.id.waterProgress)
+        progressBars["steak"] = weakReference.get()!!.findViewById(R.id.colaProgress)
+        progressBars["cola"] = weakReference.get()!!.findViewById(R.id.steakProgress)
+    }
 
     fun lockAccordingButtons(vault: Vault) {
         verifyButtons(waterBuy, waterUpgrade, vault.hasBoughtWater)
@@ -28,6 +38,22 @@ class ScreenController(weakReference: WeakReference<MainActivity>) {
         verifyButton(waterMrHandy, vault.mrHandy, Constants.waterBitwiseValue)
         verifyButton(steakMrHandy, vault.mrHandy, Constants.steakBitwiseValue)
         verifyButton(colaMrHandy, vault.mrHandy, Constants.colaBitwiseValue)
+    }
+
+    fun updateProgressBars(collectibles: HashMap<String, Collectible>) {
+        for (bar in progressBars) {
+            val interval = calculateInterval(collectibles[bar.key])
+            bar.value.max = interval
+            if (collectibles[bar.key]!!.canCollect) {
+                bar.value.progress = bar.value.max
+            } else {
+                bar.value.progress = collectibles[bar.key]!!.progress
+            }
+        }
+    }
+
+    private fun calculateInterval(collectible: Collectible?): Int {
+        return collectible!!.interval.roundToInt() * 100
     }
 
     private fun verifyButton(button: ImageButton?, mrHandy: Int, bitwiseValue: Int) {
@@ -61,5 +87,9 @@ class ScreenController(weakReference: WeakReference<MainActivity>) {
 
     private fun getComponent(id: Int): ImageButton? {
         return weakReference.get()?.findViewById(id)
+    }
+
+    fun resetProgressbar(item: String) {
+        progressBars[item]!!.progress = 0
     }
 }

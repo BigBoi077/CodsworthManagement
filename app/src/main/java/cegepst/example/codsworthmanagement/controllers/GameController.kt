@@ -42,26 +42,6 @@ class GameController(mainController: MainController, vault: Vault) {
         collectibles["cola"] = Collectible(vault.colaCollectDelay, compareBitwise(Constants.colaBitwiseValue))
     }
 
-    fun dispose() {
-        running.set(false)
-        observer.dispose()
-    }
-
-    fun canCollect(collectible: String): Boolean {
-        if (collectibles[collectible]!!.canCollect) {
-            return true
-        }
-        return false
-    }
-
-    fun hasCollected(collectible: String) {
-        collectibles[collectible]!!.canCollect = false
-    }
-
-    fun changeInterval(collectible: String, newInterval: Double) {
-        collectibles[collectible]!!.interval = newInterval
-    }
-
     private fun loop() {
         observer = Observable.interval(10, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.newThread())
@@ -80,15 +60,33 @@ class GameController(mainController: MainController, vault: Vault) {
 
     private fun refreshGame() {
         checkSave()
-        checkCollectibleIntervals()
-        mainController.refresh()
+        refreshIntervals()
+        refreshProgress()
+        mainController.refresh(collectibles)
     }
 
-    private fun checkCollectibleIntervals() {
+    private fun refreshProgress() {
+        for (collectible in collectibles) {
+            if (canCollect(collectible.key)) {
+                collectible.value.progress = collectible.value.interval.toInt()
+            } else {
+                if (hasTentOfSecondPassed(collectible.value)) {
+                    collectible.value.progress += 1
+                }
+            }
+        }
+    }
+
+    private fun hasTentOfSecondPassed(collectible: Collectible): Boolean {
+        return this.elapsed.get().absoluteValue - collectible.lastCollectTimestamp > 10000
+    }
+
+    private fun refreshIntervals() {
         for (collectible in collectibles) {
             if (canCollect(collectible.value)) {
                 if (collectible.value.isMrHandyActivated) {
                     mainController.collect(collectible.key)
+                    setNewTimestamp(collectible.key)
                     collectible.value.canCollect = false
                 } else {
                     collectible.value.canCollect = true
@@ -124,5 +122,25 @@ class GameController(mainController: MainController, vault: Vault) {
 
     fun updateMrHandy(name: String) {
         collectibles[name]!!.isMrHandyActivated = true
+    }
+
+    fun dispose() {
+        running.set(false)
+        observer.dispose()
+    }
+
+    fun canCollect(collectible: String): Boolean {
+        if (collectibles[collectible]!!.canCollect) {
+            return true
+        }
+        return false
+    }
+
+    fun hasCollected(collectible: String) {
+        collectibles[collectible]!!.canCollect = false
+    }
+
+    fun changeInterval(collectible: String, newInterval: Double) {
+        collectibles[collectible]!!.interval = newInterval
     }
 }

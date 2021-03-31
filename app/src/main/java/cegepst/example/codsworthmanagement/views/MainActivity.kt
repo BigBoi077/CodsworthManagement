@@ -69,7 +69,6 @@ class MainActivity : AppCompatActivity() {
             R.id.actionMrHandyCola -> controller.buyColaMrHandy()
         }
         controller.saveVault()
-        controller.refresh()
         controller.printVault()
     }
 
