@@ -83,6 +83,7 @@
     <ProgressBar
         android:id="@+id/waterProgress"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:progressDrawable="@drawable/yellow_progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp" />
@@ -153,6 +154,7 @@
     <ProgressBar
         android:id="@+id/steakProgress"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:progressDrawable="@drawable/yellow_progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp" />
@@ -223,6 +225,7 @@
     <ProgressBar
         android:id="@+id/colaProgress"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:progressDrawable="@drawable/yellow_progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp" />

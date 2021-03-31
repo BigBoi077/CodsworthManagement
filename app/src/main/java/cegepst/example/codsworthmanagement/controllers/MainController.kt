@@ -121,7 +121,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     }
 
     fun collectWater() {
-        if (gameController.canCollect("water")) {
+        if (gameController.canCollect("water") && vault.hasBoughtWater) {
             vault.nbrCaps += Constants.waterRevenue
             gameController.hasCollected("water")
             gameController.setNewTimestamp("water")
@@ -159,7 +159,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     }
 
     fun collectSteak() {
-        if (gameController.canCollect("steak")) {
+        if (gameController.canCollect("steak") && vault.hasBoughtSteak) {
             vault.nbrCaps += Constants.steakRevenue
             gameController.hasCollected("steak")
             gameController.setNewTimestamp("steak")
@@ -196,7 +196,7 @@ class MainController(mainActivity: MainActivity, vault: Vault) {
     }
 
     fun collectCola() {
-        if (gameController.canCollect("cola")) {
+        if (gameController.canCollect("cola") && vault.hasBoughtCola) {
             vault.nbrCaps += Constants.colaRevenue
             gameController.hasCollected("cola")
             gameController.setNewTimestamp("cola")

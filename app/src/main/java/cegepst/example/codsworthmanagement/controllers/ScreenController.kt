@@ -27,8 +27,8 @@ class ScreenController(weakReference: WeakReference<MainActivity>) {
 
     init {
         progressBars["water"] = weakReference.get()!!.findViewById(R.id.waterProgress)
-        progressBars["steak"] = weakReference.get()!!.findViewById(R.id.colaProgress)
-        progressBars["cola"] = weakReference.get()!!.findViewById(R.id.steakProgress)
+        progressBars["cola"] = weakReference.get()!!.findViewById(R.id.colaProgress)
+        progressBars["steak"] = weakReference.get()!!.findViewById(R.id.steakProgress)
     }
 
     fun lockAccordingButtons(vault: Vault) {
